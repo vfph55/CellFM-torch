@@ -83,7 +83,7 @@ def map_gene_list(gene_list, gene_info):
     geneset = {j: i + 1 for i, j in enumerate(gene_info.index)}
     gene_list = list(map(str, gene_list))  
     genemap = {j: i + 1 for i, j in enumerate(gene_info.index)}
-    hgcn = pd.read_csv(r'csv/updated_hgcn.tsv', index_col=1, header=0,
+    hgcn = pd.read_csv('/F00120250015/cell_datasets/xiaoqianCHENG/CellFM-torch/csv/updated_hgcn.tsv', index_col=1, header=0,
                        sep='\t')
     hgcn = hgcn[hgcn['Status'] == 'Approved']
     map_dict = {}
@@ -123,7 +123,7 @@ class SCrna():
             adata = adata[adata.obs.train == 2]
 
         self.gene_info = pd.read_csv(
-            r'csv/expand_gene_info.csv',
+            r'/F00120250015/cell_datasets/xiaoqianCHENG/CellFM-torch/csv/expand_gene_info.csv',
             index_col=0, header=0
         )
         self.geneset = {j: i + 1 for i, j in enumerate(self.gene_info.index)}
@@ -210,7 +210,7 @@ class TestSCrna():
             adata = adata[adata.obs.train == 2]
 
         self.gene_info = pd.read_csv(
-            r'csv/expand_gene_info.csv',
+            r'/F00120250015/cell_datasets/xiaoqianCHENG/CellFM-torch/csv/expand_gene_info.csv',
             index_col=0, header=0
         )
         self.geneset = {j: i + 1 for i, j in enumerate(self.gene_info.index)}
