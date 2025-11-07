@@ -120,7 +120,7 @@ class SCrna():
         elif mode == 'val':
             adata = adata[adata.obs.train == 1]
         else:
-            adata = adata[adata.obs.train == 2]
+            adata = adata[adata.obs.train == 2] # test
 
         self.gene_info = pd.read_csv(
             r'/F00120250015/cell_datasets/xiaoqianCHENG/CellFM-torch/csv/expand_gene_info.csv',
@@ -129,7 +129,7 @@ class SCrna():
         self.geneset = {j: i + 1 for i, j in enumerate(self.gene_info.index)}
 
         selected_genes_list = adata.var_names.tolist()
-        selected_genes, _ = map_gene_list(selected_genes_list, self.gene_info)
+        selected_genes, _ = map_gene_list(selected_genes_list, self.gene_info) # gene mapping
         selected_genes = selected_genes[:2048]  # 2048
         pad_len = 2048 - len(selected_genes)
         pad_genes = [f'__pad_{i}__' for i in range(pad_len)]

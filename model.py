@@ -31,6 +31,7 @@ class Cell_FM(nn.Module):
         self.init_optimizer(moment=moment)
         return self, self.optimizer, self.scaler
     
+    # 将mindspore的参数名映射到pytorch的参数名
     def map_ms_to_pt(self, ms_key):
         name = ms_key
         name = name.replace("layer_norm.gamma", "weight")
@@ -41,6 +42,7 @@ class Cell_FM(nn.Module):
         name = name.replace("post_norm2.beta", "post_norm2.bias")
         return name
 
+    # 将mindspore的权重加载到pytorch模型中
     def load_weight(self):
         torch_state_dict = {}
         moment_state_dict_1 = {}
@@ -93,6 +95,7 @@ class Cell_FM(nn.Module):
         self.scaler = scaler
 
 
+    # 把学习率和step从meta信息恢复到optimizer中
     @staticmethod
     def restore_meta_to_torch(meta_info, optimizer):
         if 'global_step' in meta_info:
@@ -104,12 +107,14 @@ class Cell_FM(nn.Module):
             for param in optimizer.state:
                 optimizer.state[param]['step'] = step_tensor
 
+
     def forward(self, raw_nzdata,
                 dw_nzdata,
                 ST_feat,
                 nonz_gene,
                 mask_gene,
                 zero_idx):
+       
         
         loss = self.net(raw_nzdata,
                 dw_nzdata,
@@ -117,7 +122,6 @@ class Cell_FM(nn.Module):
                 nonz_gene,
                 mask_gene,
                 zero_idx)
-        
         emb, gene_emb= self.net.encode(dw_nzdata, nonz_gene, ST_feat, zero_idx)
         cls_token, st_emb, expr_emb = emb[:, 0], emb[:, 1:3], emb[:, 3:]
 
